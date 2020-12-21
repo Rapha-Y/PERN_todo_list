@@ -48,6 +48,22 @@ app.post('/todos', async (req, res) => {
     }
 });
 
+app.put('/todos/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { description } = req.body;
+
+        const updateTodo = await pool.query(
+            'UPDATE todo SET description = $1 WHERE todo_id = $2 RETURNING *',
+            [description, id]
+        );
+
+        res.json(updateTodo.rows[0]);
+    } catch (error) {
+        console.log(error);
+    }
+});
+
 //Connection
 const PORT = 5000;
 app.listen(PORT, () => {
