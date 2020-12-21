@@ -1,0 +1,1 @@
+This is a PERN stack todo list app, made to learn how to integrate client components to server methods, as well as database data. Following videos from the Youtube channel "The Stoic Programmers".
