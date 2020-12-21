@@ -6,6 +6,33 @@ const pool = require('./db');
 app.use(express.json());
 
 //Routes
+app.get('/todos', async (req, res) => {
+    try {
+        const allTodos = await pool.query(
+            'SELECT * FROM todo'
+        );
+
+        res.json(allTodos.rows);
+    } catch (error) {
+        console.log(error.message);
+    }
+});
+
+app.get('/todos/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const todo = await pool.query(
+            'SELECT * FROM todo WHERE todo_id = $1',
+            [id]
+        );
+
+        res.json(todo.rows[0]);
+    } catch (error) {
+        console.log(error.message);
+    }
+});
+
 app.post('/todos', async (req, res) => {
     try {
         const { description } = req.body;
@@ -17,7 +44,7 @@ app.post('/todos', async (req, res) => {
 
         res.json(newTodo.rows[0]);
     } catch (error) {
-        console.log(error);
+        console.log(error.message);
     }
 });
 
