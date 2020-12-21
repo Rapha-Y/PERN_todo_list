@@ -60,7 +60,22 @@ app.put('/todos/:id', async (req, res) => {
 
         res.json(updateTodo.rows[0]);
     } catch (error) {
-        console.log(error);
+        console.log(error.message);
+    }
+});
+
+app.delete('/todos/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const deleteTodo = await pool.query(
+            'DELETE FROM todo WHERE todo_id = $1 RETURNING *',
+            [id]
+        );
+
+        res.json(deleteTodo.rows[0]);
+    } catch (error) {
+        console.log(error.message);
     }
 });
 
