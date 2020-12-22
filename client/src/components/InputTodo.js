@@ -20,7 +20,7 @@ const InputTodo = () => {
         } catch (error) {
             console.log(error.message);
         }
-    }
+    };
 
     return (
         <Fragment>
@@ -37,6 +37,6 @@ const InputTodo = () => {
             </form>
         </Fragment>
     );
-}
+};
 
 export default InputTodo;
