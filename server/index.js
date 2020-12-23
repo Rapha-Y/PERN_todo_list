@@ -84,6 +84,8 @@ app.delete('/todos/:id', async (req, res) => {
 
 app.use('/auth', require('./routes/jwtAuth'));
 
+app.use('/dashboard', require('./routes/dashboard'));
+
 //Connection
 const PORT = 5000;
 app.listen(PORT, () => {
