@@ -82,6 +82,8 @@ app.delete('/todos/:id', async (req, res) => {
     }
 });
 
+app.use('/auth', require('./routes/jwtAuth'));
+
 //Connection
 const PORT = 5000;
 app.listen(PORT, () => {
