@@ -15,7 +15,7 @@ router.post('/register', validInfo, async (req, res) => {
         );
 
         if (user.rows.length !== 0) {
-            return res.status(401).send('E-mail is already in use');
+            return res.status(401).json('E-mail is already in use');
         }
 
         const saltRound = 10;
@@ -46,13 +46,13 @@ router.post('/login', validInfo, async (req, res) => {
         );
 
         if (user.rows.length === 0) {
-            return res.status(401).send('No users are registered under this e-mail');
+            return res.status(401).json('No users are registered under this e-mail');
         }
 
         const validPassword = await bcrypt.compare(password, user.rows[0].user_password);
 
         if (!validPassword) {
-            return res.status(401).send('Incorrect password');
+            return res.status(401).json('Incorrect password');
         }
 
         const token = jwtGenerator(user.rows[0].user_id);
