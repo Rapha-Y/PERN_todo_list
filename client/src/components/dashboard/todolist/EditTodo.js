@@ -1,22 +1,24 @@
 import React, { Fragment, useState } from 'react';
 
-const EditTodo = ({ todo }) => {
+const EditTodo = ({ todo, setTodosChange }) => {
     const editText = async (id) => {
         try {
             const body = { description };
 
+            const myHeaders = new Headers();
+            myHeaders.append('Content-Type', 'application/json');
+            myHeaders.append('token', localStorage.token);
+
             await fetch(
-                `http://localhost:5000/todos/${id}`,
+                `http://localhost:5000/dashboard/todos/${id}`,
                 {
                     method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: myHeaders,
                     body: JSON.stringify(body)
                 }
             );
 
-            window.location = '/';
+            setTodosChange(true);
         } catch (error) {
             console.log(error.message);
         }

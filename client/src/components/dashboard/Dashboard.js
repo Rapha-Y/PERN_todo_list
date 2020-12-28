@@ -1,8 +1,12 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
+import InputTodo from './todolist/InputTodo';
+import ListTodos from './todolist/ListTodos';
 
 const Dashboard = ({ setAuth }) => {
     const [name, setName] = useState('');
+    const [allTodos, setAllTodos] = useState([]);
+    const [todosChange, setTodosChange] = useState(false);
 
     async function getName() {
         try {
@@ -18,7 +22,9 @@ const Dashboard = ({ setAuth }) => {
 
             const parseRes = await response.json();
 
-            setName(parseRes.user_name);
+            setAllTodos(parseRes);
+
+            setName(parseRes[0].user_name);
         } catch (error) {
             console.log(error.message);
         }
@@ -36,12 +42,17 @@ const Dashboard = ({ setAuth }) => {
 
     useEffect(() => {
         getName();
-    }, []);
+        setTodosChange(false);
+    }, [todosChange]);
 
     return (
         <Fragment>
-            <h1>Dashboard {name}</h1>
-            <button className='btn btn-primary' onClick={e => logout(e)}>Log out</button>
+            <div className='d-flex mt-5 justify-content-around'>
+                <h2>{name}'s Todo List</h2>
+                <button className='btn btn-primary' onClick={e => logout(e)}>Log out</button>
+            </div>
+            <InputTodo setTodosChange={setTodosChange} />
+            <ListTodos allTodos={allTodos} setTodosChange={setTodosChange} />
         </Fragment>
     );
 };
