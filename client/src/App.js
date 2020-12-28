@@ -2,9 +2,10 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Dashboard from './components/Dashboard';
 import Login from './components/Login';
 import Register from './components/Register';
+import Landing from './components/Landing';
+import Dashboard from './components/dashboard/Dashboard';
 import './App.css';
 
 toast.configure();
@@ -45,6 +46,15 @@ function App() {
       <Router>
         <div className='container'>
           <Switch>
+            <Route 
+                exact path='/' 
+                render={
+                  props => 
+                  !isAuthenticated ? 
+                  <Landing {...props} /> : 
+                  <Redirect to='/dashboard' />
+                } 
+            />
             <Route 
               exact path='/login' 
               render={
